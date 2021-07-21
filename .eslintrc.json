@@ -49,6 +49,8 @@
       "error",
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
     ],
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    // Default props will be managed by assigning default function parameters
+    "react/require-default-props": "off"
   }
 }
