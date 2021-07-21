@@ -1,5 +1,4 @@
 import React from 'react';
-import Text from '../Text';
 import { Button } from './styles';
 
 type Props = {
@@ -11,9 +10,7 @@ const ButtonComponent = ({
   text = '',
   onClick,
 }: Props) => (
-  <Button type="button" onClick={onClick}>
-    <Text fontWeight="bold" color="white" lineHeight="21px" fontSize="lg">{text}</Text>
-  </Button>
+  <Button type="button" onClick={onClick}>{text}</Button>
 );
 
 export default ButtonComponent;

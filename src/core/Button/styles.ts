@@ -7,4 +7,8 @@ export const Button = styled.button`
   border-radius: 5px;
   border: none;
   cursor: pointer;
+  color: ${theme.colors.white};
+  font-weight: ${theme.font.weight};
+  font-size: ${theme.font.size.lg};
+  line-height: 21px;
 `;
