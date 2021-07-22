@@ -1,15 +1,19 @@
 import React from 'react';
 import LoginGithub from 'react-login-github';
+import { useLazyQuery } from '@apollo/client';
 import { Container } from './styles';
 import { Button } from '../../core/Button/styles';
 import constants from '../../utils/constants';
 import { getGithubAccessToken } from './utils';
+import { GET_USER } from '../../utils/queries';
 
 type GithubResponse = {
   code: string;
 }
 
 const Login = () => {
+  const [getUser] = useLazyQuery(GET_USER);
+
   const onSuccess = async (res: GithubResponse) => {
     const githubCode = res.code;
     const accessTokenRes = await getGithubAccessToken(githubCode);
@@ -18,6 +22,7 @@ const Login = () => {
     // Probably, it should be stored in the backend using JWT o something similar
     // Just doing it for the sake of simplicity
     window.localStorage.setItem(constants.localStorageKeys.accessToken, accessToken);
+    getUser();
   };
 
   return (
