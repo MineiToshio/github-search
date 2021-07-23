@@ -1,6 +1,6 @@
 import constants from '../../utils/constants';
 
-export const getGithubAccessToken = async (code: string) => {
+export const getGithubAccessToken = async (code: string): Promise<string> => {
   const res = await fetch(constants.apiAuthUrl, {
     method: 'POST',
     headers: {
@@ -10,5 +10,6 @@ export const getGithubAccessToken = async (code: string) => {
       code,
     }),
   });
-  return res;
+  const { data: { access_token: accessToken } } = await res.json();
+  return accessToken;
 };

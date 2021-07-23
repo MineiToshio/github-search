@@ -15,8 +15,7 @@ const Login = () => {
 
   const onSuccess = async (res: GithubResponse) => {
     const githubCode = res.code;
-    const accessTokenRes = await getGithubAccessToken(githubCode);
-    const { data: { access_token: accessToken } } = await accessTokenRes.json();
+    const accessToken = await getGithubAccessToken(githubCode);
     login(accessToken);
   };
 
