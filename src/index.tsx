@@ -8,6 +8,7 @@ import {
   ApolloLink,
   concat,
 } from '@apollo/client';
+import UserContextProvider from './context/UserContext';
 import constants from './utils/constants';
 import App from './App';
 
@@ -34,7 +35,9 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <App />
+    <UserContextProvider>
+      <App />
+    </UserContextProvider>
   </ApolloProvider>,
   document.getElementById('app'),
 );
