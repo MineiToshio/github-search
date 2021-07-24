@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 
-export const Container = styled.div`
+type Props = {
+  size: 'normal' | 'big';
+};
+
+export const Container = styled.div<Props>`
   border: 1px solid ${theme.colors.border};
-  padding: 10px 15px;
+  padding: ${(p) => (p.size === 'normal' ? '10px 15px' : '15px')};
   border-radius: 100px;
-  width: 360px;
+  width: ${(p) => (p.size === 'normal' ? '360px' : '580px')};
   display: flex;
   justify-content: space-between;
 `;
@@ -16,6 +20,10 @@ export const Input = styled.input`
   outline: none;
   padding: 0;
   width: 100%;
+  color: ${theme.colors.text3};
+  &::placeholder {
+    color: ${theme.colors.text1};
+  }
 `;
 
 export const Icon = styled.img`

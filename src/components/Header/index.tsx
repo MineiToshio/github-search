@@ -40,7 +40,7 @@ const HeaderComponent = ({
       {!onlyUserNav && (
         <>
           <Logo src={logo} alt="Github" />
-          <SearchInput value={searchValue} onChange={onSearchValueChange} onSearch={onSearch} />
+          <SearchInput value={searchValue} onChange={onSearchValueChange} onSearch={onSearch} placeholder="Search" />
         </>
       )}
       <UserContainer>

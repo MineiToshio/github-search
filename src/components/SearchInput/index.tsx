@@ -12,11 +12,19 @@ type Props = {
   value: string;
   onChange: (newVal: string) => void;
   onSearch: () => void;
+  size?: 'normal' | 'big';
+  placeholder?: string;
 }
 
-const SearchInput = ({ value, onChange, onSearch }: Props) => (
-  <Container>
-    <Input type="text" value={value} onChange={(e) => onChange(e.target.value)} placeholder="Search" />
+const SearchInput = ({
+  value,
+  onChange,
+  onSearch,
+  size = 'normal',
+  placeholder = '',
+}: Props) => (
+  <Container size={size}>
+    <Input type="text" value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} />
     <Spacer direction="horizontal" size={10} />
     <Button onClick={onSearch}>
       <Icon src={search} alt="search" />

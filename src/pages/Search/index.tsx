@@ -1,8 +1,27 @@
-import React from 'react';
-import { Header } from '../../components';
+import React, { useState } from 'react';
+import { Header, Search } from '../../components';
+import { SearchContainer } from './styles';
+import { Spacer } from '../../core';
 
-const Search = () => (
-  <Header onlyUserNav />
-);
+const SearchPage = () => {
+  const [searchValue, setSearchValue] = useState('');
 
-export default Search;
+  // TODO: Implement search function
+  const onSearch = () => {};
+
+  return (
+    <>
+      <Header onlyUserNav />
+      <SearchContainer>
+        <Spacer size={110} direction="vertical" />
+        <Search
+          searchValue={searchValue}
+          onSearchValueChange={setSearchValue}
+          onSearch={onSearch}
+        />
+      </SearchContainer>
+    </>
+  );
+};
+
+export default SearchPage;
