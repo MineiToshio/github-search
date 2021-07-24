@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import theme from '../../styles/theme';
+import hexToRgba from '../../utils/hexToRgba';
 
 type Props = {
   onlyUserNav?: boolean;
@@ -12,6 +13,9 @@ export const Header = styled.header<Props>`
   align-items: center;
   padding: 0 130px;
   justify-content: ${(p) => (p.onlyUserNav ? 'flex-end' : 'space-between')};
+  position: sticky;
+  top: 0;
+  box-shadow: ${(p) => (p.onlyUserNav ? 'none' : `0px 0px 5px ${hexToRgba(theme.colors.shadow, 0.7)}`)};
 `;
 
 export const UserContainer = styled.button`
