@@ -1,13 +1,17 @@
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 
-export const Header = styled.header`
+type Props = {
+  onlyUserNav?: boolean;
+}
+
+export const Header = styled.header<Props>`
   height: 80px;
   background: ${theme.colors.white};
   display: flex;
   align-items: center;
   padding: 0 130px;
-  justify-content: space-between;
+  justify-content: ${(p) => (p.onlyUserNav ? 'flex-end' : 'space-between')};
 `;
 
 export const UserContainer = styled.button`
