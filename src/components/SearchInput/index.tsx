@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Container,
   Input,
@@ -22,14 +22,24 @@ const SearchInput = ({
   onSearch,
   size = 'normal',
   placeholder = '',
-}: Props) => (
-  <Container size={size}>
-    <Input type="text" value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} />
-    <Spacer direction="horizontal" size={10} />
-    <Button onClick={onSearch}>
-      <Icon src={search} alt="search" />
-    </Button>
-  </Container>
-);
+}: Props) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  return (
+    <Container size={size}>
+      <Input type="text" value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} ref={inputRef} />
+      <Spacer direction="horizontal" size={10} />
+      <Button onClick={onSearch}>
+        <Icon src={search} alt="search" />
+      </Button>
+    </Container>
+  );
+};
 
 export default SearchInput;
