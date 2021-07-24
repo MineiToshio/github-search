@@ -5,14 +5,20 @@ import {
   Route,
 } from 'react-router-dom';
 import GlobalStyles from './styles/GlobalStyles';
-import { Login } from './pages';
+import { Login, Search } from './pages';
+import { ProtectedPage } from './components';
 
 const App = () => (
   <Router>
     <GlobalStyles />
     <Switch>
-      <Route path="/">
+      <Route exact path="/">
         <Login />
+      </Route>
+      <Route path="/search">
+        <ProtectedPage>
+          <Search />
+        </ProtectedPage>
       </Route>
     </Switch>
   </Router>

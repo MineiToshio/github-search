@@ -5,10 +5,17 @@ import { GET_USER } from '../utils/queries';
 import constants from '../utils/constants';
 import { UserData } from '../types/github';
 
+export enum CONTEXT_STATUS {
+  INITIALIZING = 0,
+  FETCHING = 1,
+  FINISHED = 2,
+}
+
 type User = UserType | null;
 
 type ContextProps = {
   currentUser: User;
+  status: CONTEXT_STATUS;
   login: (accessToken: string) => void;
 };
 
@@ -18,17 +25,28 @@ type ProviderProps = {
 
 export const UserContext = React.createContext<ContextProps>({
   currentUser: null,
+  status: CONTEXT_STATUS.INITIALIZING,
   login: () => { },
 });
 
 const UserContextProvider = ({ children }: ProviderProps) => {
   const [currentUser, setCurrentUser] = useState<User>(null);
-  const [getUser, { data: user }] = useLazyQuery<UserData>(GET_USER);
+  const [status, setStatus] = useState(CONTEXT_STATUS.INITIALIZING);
+  const [getUser, { data: user, loading: isFetchingUser }] = useLazyQuery<UserData>(GET_USER);
+
+  useEffect(() => {
+    if (status === CONTEXT_STATUS.FETCHING && !isFetchingUser) {
+      setStatus(CONTEXT_STATUS.FINISHED);
+    }
+  }, [isFetchingUser]);
 
   useEffect(() => {
     const accessToken = localStorage.getItem(constants.localStorageKeys.accessToken);
     if (accessToken) {
+      setStatus(CONTEXT_STATUS.FETCHING);
       getUser();
+    } else {
+      setStatus(CONTEXT_STATUS.FINISHED);
     }
   }, []);
 
@@ -38,6 +56,7 @@ const UserContextProvider = ({ children }: ProviderProps) => {
     // Probably, it should be stored in the backend using JWT o something similar.
     // Just doing it for the sake of simplicity.
     window.localStorage.setItem(constants.localStorageKeys.accessToken, accessToken);
+    setStatus(CONTEXT_STATUS.FETCHING);
     getUser();
   };
 
@@ -54,7 +73,7 @@ const UserContextProvider = ({ children }: ProviderProps) => {
   }, [user]);
 
   return (
-    <UserContext.Provider value={{ currentUser, login }}>
+    <UserContext.Provider value={{ currentUser, login, status }}>
       {children}
     </UserContext.Provider>
   );
