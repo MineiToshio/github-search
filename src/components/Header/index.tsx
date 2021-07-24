@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Header,
   Logo,
@@ -39,7 +40,9 @@ const HeaderComponent = ({
     <Header onlyUserNav={onlyUserNav}>
       {!onlyUserNav && (
         <>
-          <Logo src={logo} alt="Github" />
+          <Link to="/search">
+            <Logo src={logo} alt="Github" />
+          </Link>
           <SearchInput value={searchValue} onChange={onSearchValueChange} onSearch={onSearch} placeholder="Search" />
         </>
       )}
