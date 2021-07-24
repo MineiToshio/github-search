@@ -22,6 +22,7 @@ export const UserContainer = styled.button`
   display: flex;
   align-items: center;
   border: none;
+  padding: 0;
   background: none;
   cursor: pointer;
 `;
@@ -34,10 +35,8 @@ export const UserPhoto = styled.img`
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  margin-right: 10px;
 `;
 
 export const Icon = styled.img`
   width: 12px;
-  margin-left:10px;
 `;

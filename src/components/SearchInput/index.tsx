@@ -5,6 +5,7 @@ import {
   Icon,
   Button,
 } from './styles';
+import { Spacer } from '../../core';
 import search from '../../img/search.svg';
 
 type Props = {
@@ -16,6 +17,7 @@ type Props = {
 const SearchInput = ({ value, onChange, onSearch }: Props) => (
   <Container>
     <Input type="text" value={value} onChange={(e) => onChange(e.target.value)} placeholder="Search" />
+    <Spacer direction="horizontal" size={10} />
     <Button onClick={onSearch}>
       <Icon src={search} alt="search" />
     </Button>

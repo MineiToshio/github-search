@@ -6,7 +6,7 @@ import {
   UserContainer,
   Icon,
 } from './styles';
-import { Text } from '../../core';
+import { Text, Spacer } from '../../core';
 import SearchInput from '../SearchInput';
 import logo from '../../img/logo.svg';
 import chevronDown from '../../img/chevron-down.svg';
@@ -45,7 +45,9 @@ const HeaderComponent = ({
       )}
       <UserContainer>
         <UserPhoto src={currentUser?.photo} alt={currentUser?.name} />
+        <Spacer direction="horizontal" size={10} />
         <Text fontFamily="user" color="text2" fontSize="lg" lineHeight="19px">{currentUser?.name}</Text>
+        <Spacer direction="horizontal" size={10} />
         <Icon src={chevronDown} alt="down" />
       </UserContainer>
     </Header>

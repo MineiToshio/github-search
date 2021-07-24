@@ -25,7 +25,6 @@ export const Icon = styled.img`
 `;
 
 export const Button = styled.button`
-  margin-left:10px;
   border: none;
   background: none;
   cursor: pointer;
