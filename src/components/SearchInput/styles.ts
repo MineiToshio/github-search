@@ -9,7 +9,7 @@ export const Container = styled.div<Props>`
   border: 1px solid ${theme.colors.border};
   padding: ${(p) => (p.size === 'normal' ? '10px 15px' : '15px')};
   border-radius: 100px;
-  width: ${(p) => (p.size === 'normal' ? '360px' : '580px')};
+  width: ${(p) => (p.size === 'normal' ? '380px' : '580px')};
   display: flex;
   justify-content: space-between;
 `;

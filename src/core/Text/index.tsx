@@ -15,6 +15,7 @@ type Props = {
   fontSize: FontSize;
   lineHeight: string;
   as?: 'h2' | 'h3' | 'p' | 'span';
+  ellipsis?: boolean;
 };
 
 const TextComponent = ({
@@ -25,6 +26,7 @@ const TextComponent = ({
   fontSize,
   lineHeight,
   as = 'span',
+  ellipsis = false,
 }: Props) => (
   <Text
     color={color}
@@ -33,6 +35,7 @@ const TextComponent = ({
     fontSize={fontSize}
     lineHeight={lineHeight}
     as={as}
+    ellipsis={ellipsis}
   >
     {children}
   </Text>

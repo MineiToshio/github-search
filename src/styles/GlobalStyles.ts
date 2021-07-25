@@ -3,7 +3,12 @@ import theme from './theme';
 
 const GlobalStyles = createGlobalStyle`
   html {
+    box-sizing: border-box;
     font-family: ${theme.font.family.default};
+  }
+
+  *, *::before, *::after {
+    box-sizing: inherit;
   }
 
   body {

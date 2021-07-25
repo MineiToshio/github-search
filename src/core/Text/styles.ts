@@ -12,6 +12,7 @@ type Props = {
   fontFamily: FontFamily;
   fontSize: FontSize;
   lineHeight: string;
+  ellipsis: boolean;
 }
 
 export const Text = styled.span<Props>`
@@ -21,4 +22,7 @@ export const Text = styled.span<Props>`
   font-weight: ${(p) => theme.font.weight[p.fontWeight]};
   font-size: ${(p) => theme.font.size[p.fontSize]};
   line-height: ${(p) => p.lineHeight};
+  overflow: ${(p) => (p.ellipsis ? 'hidden' : 'initial')};
+  text-overflow: ${(p) => (p.ellipsis ? 'ellipsis' : 'initial')};
+  white-space: ${(p) => (p.ellipsis ? 'nowrap' : 'initial')};
 `;
