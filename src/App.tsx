@@ -5,7 +5,7 @@ import {
   Route,
 } from 'react-router-dom';
 import GlobalStyles from './styles/GlobalStyles';
-import { Login, Search } from './pages';
+import { Login, Search, Results } from './pages';
 import { ProtectedPage } from './components';
 
 const App = () => (
@@ -18,6 +18,11 @@ const App = () => (
       <Route path="/search">
         <ProtectedPage>
           <Search />
+        </ProtectedPage>
+      </Route>
+      <Route path="/results">
+        <ProtectedPage>
+          <Results />
         </ProtectedPage>
       </Route>
     </Switch>

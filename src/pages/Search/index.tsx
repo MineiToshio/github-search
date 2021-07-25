@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Header, Search } from '../../components';
 import { SearchContainer } from './styles';
 import { Spacer } from '../../core';
 
 const SearchPage = () => {
+  const history = useHistory();
   const [searchValue, setSearchValue] = useState('');
 
-  // TODO: Implement search function
-  const onSearch = () => {};
+  const onSearch = () => {
+    history.push(`/results?q=${searchValue}`);
+  };
 
   return (
     <>
