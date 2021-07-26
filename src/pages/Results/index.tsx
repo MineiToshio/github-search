@@ -5,6 +5,7 @@ import { Spacer } from '../../core';
 import { Header, SearchResults } from '../../components';
 import { Container } from './styles';
 import { SEARCH_REPOSITORIES, SEARCH_USERS } from '../../utils/queries';
+import { getAfterPageCursor } from './utils';
 import type { RepositoriesResultData, UsersResultData } from '../../types/github';
 import type { SearchCategory } from '../../types';
 
@@ -15,13 +16,17 @@ const Results = () => {
   const searchQuery = query.get('q');
   const [searchValue, setSearchValue] = useState(searchQuery ?? '');
   const [selectedCategory, setSelectecCategory] = useState<SearchCategory>('Repositories');
+  const [currentRepositoryEndCursor, setCurrentRepositoryEndCursor] = useState<string | null>(null);
+  const [currentRepositoryNumber, setCurrentRepositoryNumber] = useState(1);
+  const [currentUserEndCursor, setCurrentUserEndCursor] = useState<string | null>(null);
+  const [currentUserNumber, setCurrentUserNumber] = useState(1);
 
   const { data: repositoriesResult } = useQuery<RepositoriesResultData>(SEARCH_REPOSITORIES, {
-    variables: { queryString: searchQuery },
+    variables: { queryString: searchQuery, afterPageCursor: currentRepositoryEndCursor },
   });
 
   const { data: usersResult } = useQuery<UsersResultData>(SEARCH_USERS, {
-    variables: { queryString: searchQuery },
+    variables: { queryString: searchQuery, afterPageCursor: currentUserEndCursor },
   });
 
   const onSearch = () => {
@@ -49,6 +54,36 @@ const Results = () => {
     url: user.repo.url,
   })) ?? []), [usersResult]);
 
+  const onRepositoryNextClick = () => {
+    if (repositoriesResult?.search.pageInfo.hasNextPage) {
+      setCurrentRepositoryEndCursor(repositoriesResult.search.pageInfo.endCursor);
+      setCurrentRepositoryNumber(currentRepositoryNumber + 1);
+    }
+  };
+
+  const onRepositoryPreviousClick = () => {
+    if (repositoriesResult?.search.pageInfo.hasPreviousPage) {
+      const pageNumberToGo = currentRepositoryNumber - 1;
+      setCurrentRepositoryEndCursor(getAfterPageCursor(pageNumberToGo));
+      setCurrentRepositoryNumber(pageNumberToGo);
+    }
+  };
+
+  const onUserNextClick = () => {
+    if (usersResult?.search.pageInfo.hasNextPage) {
+      setCurrentUserEndCursor(usersResult.search.pageInfo.endCursor);
+      setCurrentUserNumber(currentUserNumber + 1);
+    }
+  };
+
+  const onUserPreviousClick = () => {
+    if (usersResult?.search.pageInfo.hasPreviousPage) {
+      const pageNumberToGo = currentUserNumber - 1;
+      setCurrentUserEndCursor(getAfterPageCursor(pageNumberToGo));
+      setCurrentUserNumber(pageNumberToGo);
+    }
+  };
+
   return (
     <>
       <Header searchValue={searchValue} onSearchValueChange={setSearchValue} onSearch={onSearch} />
@@ -62,13 +97,12 @@ const Results = () => {
             repositories={repositories}
             userCount={usersResult?.search.userCount}
             users={users}
-            // TODO: Implement pagination events
-            onRepositoryNextClick={() => {}}
-            onRepositoryPreviousClick={() => { }}
+            onRepositoryNextClick={onRepositoryNextClick}
+            onRepositoryPreviousClick={onRepositoryPreviousClick}
             isRepositoryNextDisabled={!repositoriesResult.search.pageInfo.hasNextPage}
             isRepositoryPreviousDisabled={!repositoriesResult.search.pageInfo.hasPreviousPage}
-            onUserNextClick={() => { }}
-            onUserPreviousClick={() => { }}
+            onUserNextClick={onUserNextClick}
+            onUserPreviousClick={onUserPreviousClick}
             isUserNextDisabled={!usersResult.search.pageInfo.hasNextPage}
             isUserPreviousDisabled={!usersResult.search.pageInfo.hasPreviousPage}
           />
