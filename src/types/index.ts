@@ -14,3 +14,5 @@ export type Repository = {
   license: string;
   updatedAt: Date;
 };
+
+export type SearchCategory = 'Repositories' | 'Users';

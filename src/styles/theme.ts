@@ -4,7 +4,6 @@ const theme = {
     bg2: '#F3F3F3',
     bg3: '#F7F7F8',
     bg4: '#DCDCDF',
-    bg5: '#DCDCDF',
     text1: '#91929E',
     text2: '#1C1C1C',
     text3: '#5C5C5C',

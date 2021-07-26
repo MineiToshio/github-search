@@ -2,10 +2,11 @@ import React, { useState, useMemo } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { Spacer } from '../../core';
-import { Header, RepositoryResults } from '../../components';
+import { Header, SearchResults } from '../../components';
 import { Container } from './styles';
 import { SEARCH_REPOSITORIES } from '../../utils/queries';
 import type { RepositoryData } from '../../types/github';
+import type { SearchCategory } from '../../types';
 
 const Results = () => {
   const history = useHistory();
@@ -13,6 +14,7 @@ const Results = () => {
   const query = new URLSearchParams(location.search);
   const searchQuery = query.get('q');
   const [searchValue, setSearchValue] = useState(searchQuery ?? '');
+  const [selectedCategory, setSelectecCategory] = useState<SearchCategory>('Repositories');
 
   const { data: repositoriesResult } = useQuery<RepositoryData>(SEARCH_REPOSITORIES, {
     variables: { queryString: searchQuery },
@@ -41,9 +43,13 @@ const Results = () => {
       <Container>
         <Spacer direction="vertical" size={30} />
         {repositoriesResult && (
-          <RepositoryResults
+          <SearchResults
+            selectedCategory={selectedCategory}
+            onCategoryClick={setSelectecCategory}
             repositoryCount={repositoriesResult.search.repositoryCount}
             repositories={repositories}
+            // TODO: replace with the real user count
+            userCount={0}
           />
         )}
       </Container>
