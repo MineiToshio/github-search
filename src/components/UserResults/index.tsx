@@ -8,31 +8,19 @@ import type { UserResult } from '../../types';
 type Props = {
   userCount: number;
   users: UserResult[];
-  onNextClick: () => void;
-  onPreviousClick: () => void;
   onPageNumberClick: (pageNumber: number) => void;
-  isNextDisabled: boolean;
-  isPreviousDisabled: boolean;
   currentPageNumber: number;
 }
 
 const UserResults = ({
   userCount,
   users,
-  onNextClick,
-  onPreviousClick,
   onPageNumberClick,
-  isNextDisabled,
-  isPreviousDisabled,
   currentPageNumber,
 }: Props) => (
   <ResultsLayout
     title={`${formatNumberWithCommas(userCount)} user${userCount !== 1 ? 's' : ''}`}
-    onNextClick={onNextClick}
-    onPreviousClick={onPreviousClick}
     onPageNumberClick={onPageNumberClick}
-    isNextDisabled={isNextDisabled}
-    isPreviousDisabled={isPreviousDisabled}
     totalResultsNumber={userCount}
     currentPageNumber={currentPageNumber}
   >

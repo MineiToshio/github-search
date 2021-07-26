@@ -5,11 +5,7 @@ import Pagination from '../Pagination';
 
 type Props = {
   title: string;
-  onNextClick: () => void;
-  onPreviousClick: () => void;
   onPageNumberClick: (pageNumber: number) => void;
-  isNextDisabled: boolean;
-  isPreviousDisabled: boolean;
   totalResultsNumber: number;
   currentPageNumber: number;
   children: React.ReactNode;
@@ -17,11 +13,7 @@ type Props = {
 
 const ResultsLayout = ({
   title,
-  onNextClick,
-  onPreviousClick,
   onPageNumberClick,
-  isNextDisabled,
-  isPreviousDisabled,
   totalResultsNumber,
   currentPageNumber,
   children,
@@ -34,11 +26,7 @@ const ResultsLayout = ({
     {children}
     <Spacer direction="vertical" size={65} />
     <Pagination
-      onNextClick={onNextClick}
-      onPreviousClick={onPreviousClick}
       onPageNumberClick={onPageNumberClick}
-      isNextDisabled={isNextDisabled}
-      isPreviousDisabled={isPreviousDisabled}
       currentPageNumber={currentPageNumber}
       totalResultsNumber={totalResultsNumber}
     />

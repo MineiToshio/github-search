@@ -13,17 +13,9 @@ type Props = {
   repositories: RepositoryResult[];
   userCount: number;
   users: UserResult[];
-  onRepositoryNextClick: () => void;
-  onRepositoryPreviousClick: () => void;
   onRepositoryPageNumberClick: (pageNumber: number) => void;
-  isRepositoryNextDisabled: boolean;
-  isRepositoryPreviousDisabled: boolean;
   currentRepositoryPageNumber: number;
-  onUserNextClick: () => void;
-  onUserPreviousClick: () => void;
   onUserPageNumberClick: (pageNumber: number) => void;
-  isUserNextDisabled: boolean;
-  isUserPreviousDisabled: boolean;
   currentUserPageNumber: number;
 };
 
@@ -34,17 +26,9 @@ const SearchResults = ({
   repositories,
   userCount,
   users,
-  onRepositoryNextClick,
-  onRepositoryPreviousClick,
   onRepositoryPageNumberClick,
-  isRepositoryNextDisabled,
-  isRepositoryPreviousDisabled,
   currentRepositoryPageNumber,
-  onUserNextClick,
-  onUserPreviousClick,
   onUserPageNumberClick,
-  isUserNextDisabled,
-  isUserPreviousDisabled,
   currentUserPageNumber,
 }: Props) => (
   <Container>
@@ -60,22 +44,14 @@ const SearchResults = ({
         <RepositoryResults
           repositoryCount={repositoryCount}
           repositories={repositories}
-          onNextClick={onRepositoryNextClick}
-          onPreviousClick={onRepositoryPreviousClick}
           onPageNumberClick={onRepositoryPageNumberClick}
-          isNextDisabled={isRepositoryNextDisabled}
-          isPreviousDisabled={isRepositoryPreviousDisabled}
           currentPageNumber={currentRepositoryPageNumber}
         />
       ) : (
         <UserResults
           userCount={userCount}
           users={users}
-          onNextClick={onUserNextClick}
-          onPreviousClick={onUserPreviousClick}
           onPageNumberClick={onUserPageNumberClick}
-          isNextDisabled={isUserNextDisabled}
-          isPreviousDisabled={isUserPreviousDisabled}
           currentPageNumber={currentUserPageNumber}
         />
       )}

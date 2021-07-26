@@ -6,11 +6,7 @@ import constants from '../../utils/constants';
 import { getPaginationRange } from './utils';
 
 type Props = {
-  onNextClick: () => void;
-  onPreviousClick: () => void;
   onPageNumberClick: (pageNumber: number) => void;
-  isNextDisabled: boolean;
-  isPreviousDisabled: boolean;
   totalResultsNumber: number;
   currentPageNumber: number;
 }
@@ -21,23 +17,20 @@ const RIGHT_DOTS = 'rdots';
 const MAX_PAGE_NUMBER = 100;
 
 const Pagination = ({
-  onNextClick,
-  onPreviousClick,
   onPageNumberClick,
-  isNextDisabled,
-  isPreviousDisabled,
   totalResultsNumber,
   currentPageNumber,
 } : Props) => {
   const [pageNumbers, setPageNumbers] = useState<Array<number | string>>();
 
+  // Limiting the page number to 100 cause Github returns an empty array past 1000 results
+  const totalPages = Math.min(
+    MAX_PAGE_NUMBER,
+    Math.ceil(totalResultsNumber / constants.resultsToShow),
+  );
+
   useEffect(() => {
     const fetchPageNumbers = () => {
-      // Limiting the page number to 100 cause Github returns an empty array past 1000 results
-      const totalPages = Math.min(
-        MAX_PAGE_NUMBER,
-        Math.ceil(totalResultsNumber / constants.resultsToShow),
-      );
       const totalNumbers = (PAGE_NEIGHBORS * 2) + 3;
       const totalBlocks = totalNumbers + 2;
 
@@ -81,11 +74,23 @@ const Pagination = ({
     };
 
     setPageNumbers(fetchPageNumbers());
-  }, [currentPageNumber, totalResultsNumber]);
+  }, [currentPageNumber]);
+
+  const onPreviousClick = () => {
+    if (currentPageNumber !== 1) {
+      onPageNumberClick(currentPageNumber - 1);
+    }
+  };
+
+  const onNextClick = () => {
+    if (currentPageNumber !== totalPages) {
+      onPageNumberClick(currentPageNumber + 1);
+    }
+  };
 
   return (
     <Container>
-      <Arrow direction="left" onClick={onPreviousClick} disabled={isPreviousDisabled} />
+      <Arrow direction="left" onClick={onPreviousClick} disabled={currentPageNumber === 1} />
       <Spacer direction="horizontal" size={19} />
       {pageNumbers && pageNumbers.map((page, i) => (
         <Fragment key={page}>
@@ -101,7 +106,7 @@ const Pagination = ({
         </Fragment>
       ))}
       <Spacer direction="horizontal" size={19} />
-      <Arrow direction="right" onClick={onNextClick} disabled={isNextDisabled} />
+      <Arrow direction="right" onClick={onNextClick} disabled={currentPageNumber === totalPages} />
     </Container>
   );
 };

@@ -16,10 +16,16 @@ const Results = () => {
   const searchQuery = query.get('q');
   const [searchValue, setSearchValue] = useState(searchQuery ?? '');
   const [selectedCategory, setSelectecCategory] = useState<SearchCategory>('Repositories');
-  const [currentRepositoryEndCursor, setCurrentRepositoryEndCursor] = useState<string | null>(null);
   const [currentRepositoryNumber, setCurrentRepositoryNumber] = useState(1);
-  const [currentUserEndCursor, setCurrentUserEndCursor] = useState<string | null>(null);
   const [currentUserNumber, setCurrentUserNumber] = useState(1);
+
+  const currentRepositoryEndCursor = useMemo(() => (
+    getAfterPageCursor(currentRepositoryNumber)
+  ), [currentRepositoryNumber]);
+
+  const currentUserEndCursor = useMemo(() => (
+    getAfterPageCursor(currentUserNumber)
+  ), [currentUserNumber]);
 
   const { data: repositoriesResult } = useQuery<RepositoriesResultData>(SEARCH_REPOSITORIES, {
     variables: { queryString: searchQuery, afterPageCursor: currentRepositoryEndCursor },
@@ -30,9 +36,7 @@ const Results = () => {
   });
 
   useEffect(() => {
-    setCurrentRepositoryEndCursor(null);
     setCurrentRepositoryNumber(1);
-    setCurrentUserEndCursor(null);
     setCurrentUserNumber(1);
   }, [searchQuery]);
 
@@ -61,50 +65,6 @@ const Results = () => {
     url: user.repo.url,
   })) ?? []), [usersResult]);
 
-  const onRepositoryNextClick = () => {
-    if (repositoriesResult?.search.pageInfo.hasNextPage) {
-      setCurrentRepositoryEndCursor(repositoriesResult.search.pageInfo.endCursor);
-      setCurrentRepositoryNumber(currentRepositoryNumber + 1);
-    }
-  };
-
-  const onRepositoryPreviousClick = () => {
-    if (repositoriesResult?.search.pageInfo.hasPreviousPage) {
-      const pageNumberToGo = currentRepositoryNumber - 1;
-      setCurrentRepositoryEndCursor(getAfterPageCursor(pageNumberToGo));
-      setCurrentRepositoryNumber(pageNumberToGo);
-    }
-  };
-
-  const onUserNextClick = () => {
-    if (usersResult?.search.pageInfo.hasNextPage) {
-      setCurrentUserEndCursor(usersResult.search.pageInfo.endCursor);
-      setCurrentUserNumber(currentUserNumber + 1);
-    }
-  };
-
-  const onUserPreviousClick = () => {
-    if (usersResult?.search.pageInfo.hasPreviousPage) {
-      const pageNumberToGo = currentUserNumber - 1;
-      setCurrentUserEndCursor(getAfterPageCursor(pageNumberToGo));
-      setCurrentUserNumber(pageNumberToGo);
-    }
-  };
-
-  const onRepositoryPageNumberClick = (pageNumber: number) => {
-    if (pageNumber !== currentRepositoryNumber) {
-      setCurrentRepositoryEndCursor(getAfterPageCursor(pageNumber));
-      setCurrentRepositoryNumber(pageNumber);
-    }
-  };
-
-  const onUserPageNumberClick = (pageNumber: number) => {
-    if (pageNumber !== currentUserNumber) {
-      setCurrentUserEndCursor(getAfterPageCursor(pageNumber));
-      setCurrentUserNumber(pageNumber);
-    }
-  };
-
   return (
     <>
       <Header searchValue={searchValue} onSearchValueChange={setSearchValue} onSearch={onSearch} />
@@ -118,17 +78,9 @@ const Results = () => {
             repositories={repositories}
             userCount={usersResult?.search.userCount}
             users={users}
-            onRepositoryNextClick={onRepositoryNextClick}
-            onRepositoryPreviousClick={onRepositoryPreviousClick}
-            onRepositoryPageNumberClick={onRepositoryPageNumberClick}
-            isRepositoryNextDisabled={!repositoriesResult.search.pageInfo.hasNextPage}
-            isRepositoryPreviousDisabled={!repositoriesResult.search.pageInfo.hasPreviousPage}
+            onRepositoryPageNumberClick={setCurrentRepositoryNumber}
             currentRepositoryPageNumber={currentRepositoryNumber}
-            onUserNextClick={onUserNextClick}
-            onUserPreviousClick={onUserPreviousClick}
-            onUserPageNumberClick={onUserPageNumberClick}
-            isUserNextDisabled={!usersResult.search.pageInfo.hasNextPage}
-            isUserPreviousDisabled={!usersResult.search.pageInfo.hasPreviousPage}
+            onUserPageNumberClick={setCurrentUserNumber}
             currentUserPageNumber={currentUserNumber}
           />
         )}
