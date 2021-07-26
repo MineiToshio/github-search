@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { Spacer } from '../../core';
-import { Header, SearchResults } from '../../components';
+import { Header, SearchResults, Loading } from '../../components';
 import { Container } from './styles';
 import { SEARCH_REPOSITORIES, SEARCH_USERS } from '../../utils/queries';
 import { getAfterPageCursor } from './utils';
@@ -69,21 +69,26 @@ const Results = () => {
     <>
       <Header searchValue={searchValue} onSearchValueChange={setSearchValue} onSearch={onSearch} />
       <Container>
-        <Spacer direction="vertical" size={30} />
-        {repositoriesResult && usersResult && (
-          <SearchResults
-            selectedCategory={selectedCategory}
-            onCategoryClick={setSelectecCategory}
-            repositoryCount={repositoriesResult.search.repositoryCount}
-            repositories={repositories}
-            userCount={usersResult?.search.userCount}
-            users={users}
-            onRepositoryPageNumberClick={setCurrentRepositoryNumber}
-            currentRepositoryPageNumber={currentRepositoryNumber}
-            onUserPageNumberClick={setCurrentUserNumber}
-            currentUserPageNumber={currentUserNumber}
-          />
-        )}
+        {repositoriesResult && usersResult
+          ? (
+            <>
+              <Spacer direction="vertical" size={30} />
+              <SearchResults
+                selectedCategory={selectedCategory}
+                onCategoryClick={setSelectecCategory}
+                repositoryCount={repositoriesResult.search.repositoryCount}
+                repositories={repositories}
+                userCount={usersResult?.search.userCount}
+                users={users}
+                onRepositoryPageNumberClick={setCurrentRepositoryNumber}
+                currentRepositoryPageNumber={currentRepositoryNumber}
+                onUserPageNumberClick={setCurrentUserNumber}
+                currentUserPageNumber={currentUserNumber}
+              />
+            </>
+          ) : (
+            <Loading />
+          )}
       </Container>
     </>
   );
