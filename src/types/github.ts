@@ -5,15 +5,17 @@ export type UserData = {
   }
 };
 
-export type RepositoryData = {
+type PageInfo = {
+  endCursor: string;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  startCursor: string;
+}
+
+export type RepositoriesResultData = {
   search: {
     repositoryCount: number;
-    pageInfo: {
-      endCursor: string;
-      hasNextPage: boolean;
-      hasPreviousPage: boolean;
-      startCursor: string;
-    }
+    pageInfo: PageInfo;
     repos: Array<{
       repo: {
         id: string;
@@ -38,6 +40,22 @@ export type RepositoryData = {
         updatedAt: Date;
         url: string;
       }
+    }>;
+  }
+};
+
+export type UsersResultData = {
+  search: {
+    userCount: number;
+    pageInfo: PageInfo;
+    repos: Array<{
+      repo: {
+        id: string;
+        bio?: string;
+        login: string;
+        name?: string;
+        url: string;
+      };
     }>;
   }
 };

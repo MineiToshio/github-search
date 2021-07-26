@@ -54,3 +54,28 @@ export const SEARCH_REPOSITORIES = gql`
     }
   }
 `;
+
+export const SEARCH_USERS = gql`
+  query SearchUsers($queryString: String!, $afterPageCursor: String) {
+    search(type: USER, query: $queryString, first: 10, after: $afterPageCursor) {
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        endCursor
+        startCursor
+      }
+      repos: edges {
+        repo: node {
+          ... on User {
+            id
+            name
+            url
+            bio
+            login
+          }
+        }
+      }
+      userCount
+    }
+  }
+`;

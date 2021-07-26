@@ -3,7 +3,7 @@ export type User = {
   name: string,
 };
 
-export type Repository = {
+export type RepositoryResult = {
   id: string;
   owner: string;
   name: string;
@@ -13,6 +13,14 @@ export type Repository = {
   language: string;
   license: string;
   updatedAt: Date;
+};
+
+export type UserResult = {
+  id: string;
+  bio: string;
+  login: string;
+  name: string;
+  url: string;
 };
 
 export type SearchCategory = 'Repositories' | 'Users';

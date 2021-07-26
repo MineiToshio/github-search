@@ -2,14 +2,15 @@ import React from 'react';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import { Text, Spacer } from '../../core';
-import { Container, Link } from './styles';
+import ResultBox from '../ResultBox';
+import { Link } from './styles';
 import abbreviateNumber from '../../utils/abbreviateNumber';
-import type { Repository as RepositoryType } from '../../types';
+import type { RepositoryResult } from '../../types';
 
 TimeAgo.addDefaultLocale(en);
 const timeAgo = new TimeAgo('en-US');
 
-type Props = Omit<RepositoryType, 'id'>;
+type Props = Omit<RepositoryResult, 'id'>;
 
 const Repository = ({
   description,
@@ -21,7 +22,7 @@ const Repository = ({
   updatedAt,
   url,
 }: Props) => (
-  <Container>
+  <ResultBox padding="20px">
     <Link href={url} target="_blank" rel="noreferrer">
       <Text as="h3" color="black" lineHeight="21px" fontSize="lg" fontWeight="bold">{`${owner}/${name}`}</Text>
     </Link>
@@ -34,7 +35,7 @@ const Repository = ({
     <Text as="p" color="text1" lineHeight="16px" fontSize="sm">
       {`${abbreviateNumber(stars)} Stars | ${language} | ${license} | Updated ${timeAgo.format(new Date(updatedAt))}`}
     </Text>
-  </Container>
+  </ResultBox>
 );
 
 export default Repository;
