@@ -7,17 +7,23 @@ type Props = {
   title: string;
   onNextClick: () => void;
   onPreviousClick: () => void;
+  onPageNumberClick: (pageNumber: number) => void;
   isNextDisabled: boolean;
   isPreviousDisabled: boolean;
+  totalResultsNumber: number;
+  currentPageNumber: number;
   children: React.ReactNode;
 }
 
-const RepositoryResults = ({
+const ResultsLayout = ({
   title,
   onNextClick,
   onPreviousClick,
+  onPageNumberClick,
   isNextDisabled,
   isPreviousDisabled,
+  totalResultsNumber,
+  currentPageNumber,
   children,
 }: Props) => (
   <Container>
@@ -30,11 +36,14 @@ const RepositoryResults = ({
     <Pagination
       onNextClick={onNextClick}
       onPreviousClick={onPreviousClick}
+      onPageNumberClick={onPageNumberClick}
       isNextDisabled={isNextDisabled}
       isPreviousDisabled={isPreviousDisabled}
+      currentPageNumber={currentPageNumber}
+      totalResultsNumber={totalResultsNumber}
     />
     <Spacer direction="vertical" size={40} />
   </Container>
 );
 
-export default RepositoryResults;
+export default ResultsLayout;

@@ -10,8 +10,10 @@ type Props = {
   repositories: RepositoryResult[];
   onNextClick: () => void;
   onPreviousClick: () => void;
+  onPageNumberClick: (pageNumber: number) => void;
   isNextDisabled: boolean;
   isPreviousDisabled: boolean;
+  currentPageNumber: number;
 }
 
 const RepositoryResults = ({
@@ -19,15 +21,20 @@ const RepositoryResults = ({
   repositories,
   onNextClick,
   onPreviousClick,
+  onPageNumberClick,
   isNextDisabled,
   isPreviousDisabled,
+  currentPageNumber,
 }: Props) => (
   <ResultsLayout
     title={`${formatNumberWithCommas(repositoryCount)} repository result${repositoryCount !== 1 ? 's' : ''}`}
     onNextClick={onNextClick}
     onPreviousClick={onPreviousClick}
+    onPageNumberClick={onPageNumberClick}
     isNextDisabled={isNextDisabled}
     isPreviousDisabled={isPreviousDisabled}
+    totalResultsNumber={repositoryCount}
+    currentPageNumber={currentPageNumber}
   >
     {repositories.map((r, i) => (
       <Fragment key={r.id}>

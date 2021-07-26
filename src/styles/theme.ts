@@ -19,6 +19,7 @@ const theme = {
     family: {
       default: 'DM Sans',
       user: 'Roboto',
+      pagination: 'Inter',
     },
     size: {
       xs: '11px',
@@ -29,6 +30,7 @@ const theme = {
     },
     weight: {
       normal: 'normal',
+      medium: '500',
       bold: 'bold',
     },
   },

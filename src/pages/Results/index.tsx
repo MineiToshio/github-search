@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { Spacer } from '../../core';
@@ -28,6 +28,13 @@ const Results = () => {
   const { data: usersResult } = useQuery<UsersResultData>(SEARCH_USERS, {
     variables: { queryString: searchQuery, afterPageCursor: currentUserEndCursor },
   });
+
+  useEffect(() => {
+    setCurrentRepositoryEndCursor(null);
+    setCurrentRepositoryNumber(1);
+    setCurrentUserEndCursor(null);
+    setCurrentUserNumber(1);
+  }, [searchQuery]);
 
   const onSearch = () => {
     const params = new URLSearchParams({ q: searchValue });
@@ -84,6 +91,20 @@ const Results = () => {
     }
   };
 
+  const onRepositoryPageNumberClick = (pageNumber: number) => {
+    if (pageNumber !== currentRepositoryNumber) {
+      setCurrentRepositoryEndCursor(getAfterPageCursor(pageNumber));
+      setCurrentRepositoryNumber(pageNumber);
+    }
+  };
+
+  const onUserPageNumberClick = (pageNumber: number) => {
+    if (pageNumber !== currentUserNumber) {
+      setCurrentUserEndCursor(getAfterPageCursor(pageNumber));
+      setCurrentUserNumber(pageNumber);
+    }
+  };
+
   return (
     <>
       <Header searchValue={searchValue} onSearchValueChange={setSearchValue} onSearch={onSearch} />
@@ -99,12 +120,16 @@ const Results = () => {
             users={users}
             onRepositoryNextClick={onRepositoryNextClick}
             onRepositoryPreviousClick={onRepositoryPreviousClick}
+            onRepositoryPageNumberClick={onRepositoryPageNumberClick}
             isRepositoryNextDisabled={!repositoriesResult.search.pageInfo.hasNextPage}
             isRepositoryPreviousDisabled={!repositoriesResult.search.pageInfo.hasPreviousPage}
+            currentRepositoryPageNumber={currentRepositoryNumber}
             onUserNextClick={onUserNextClick}
             onUserPreviousClick={onUserPreviousClick}
+            onUserPageNumberClick={onUserPageNumberClick}
             isUserNextDisabled={!usersResult.search.pageInfo.hasNextPage}
             isUserPreviousDisabled={!usersResult.search.pageInfo.hasPreviousPage}
+            currentUserPageNumber={currentUserNumber}
           />
         )}
       </Container>

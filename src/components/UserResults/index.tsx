@@ -10,8 +10,10 @@ type Props = {
   users: UserResult[];
   onNextClick: () => void;
   onPreviousClick: () => void;
+  onPageNumberClick: (pageNumber: number) => void;
   isNextDisabled: boolean;
   isPreviousDisabled: boolean;
+  currentPageNumber: number;
 }
 
 const UserResults = ({
@@ -19,15 +21,20 @@ const UserResults = ({
   users,
   onNextClick,
   onPreviousClick,
+  onPageNumberClick,
   isNextDisabled,
   isPreviousDisabled,
+  currentPageNumber,
 }: Props) => (
   <ResultsLayout
     title={`${formatNumberWithCommas(userCount)} user${userCount !== 1 ? 's' : ''}`}
     onNextClick={onNextClick}
     onPreviousClick={onPreviousClick}
+    onPageNumberClick={onPageNumberClick}
     isNextDisabled={isNextDisabled}
     isPreviousDisabled={isPreviousDisabled}
+    totalResultsNumber={userCount}
+    currentPageNumber={currentPageNumber}
   >
     {users.map((r, i) => (
       <Fragment key={r.id}>
