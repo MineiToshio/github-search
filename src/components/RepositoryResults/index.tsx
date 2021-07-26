@@ -8,10 +8,27 @@ import type { RepositoryResult } from '../../types';
 type Props = {
   repositoryCount: number;
   repositories: RepositoryResult[];
+  onNextClick: () => void;
+  onPreviousClick: () => void;
+  isNextDisabled: boolean;
+  isPreviousDisabled: boolean;
 }
 
-const RepositoryResults = ({ repositoryCount, repositories }: Props) => (
-  <ResultsLayout title={`${formatNumberWithCommas(repositoryCount)} repository result${repositoryCount !== 1 ? 's' : ''}`}>
+const RepositoryResults = ({
+  repositoryCount,
+  repositories,
+  onNextClick,
+  onPreviousClick,
+  isNextDisabled,
+  isPreviousDisabled,
+}: Props) => (
+  <ResultsLayout
+    title={`${formatNumberWithCommas(repositoryCount)} repository result${repositoryCount !== 1 ? 's' : ''}`}
+    onNextClick={onNextClick}
+    onPreviousClick={onPreviousClick}
+    isNextDisabled={isNextDisabled}
+    isPreviousDisabled={isPreviousDisabled}
+  >
     {repositories.map((r, i) => (
       <Fragment key={r.id}>
         <Repository

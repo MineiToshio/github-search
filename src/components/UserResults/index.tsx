@@ -8,10 +8,27 @@ import type { UserResult } from '../../types';
 type Props = {
   userCount: number;
   users: UserResult[];
+  onNextClick: () => void;
+  onPreviousClick: () => void;
+  isNextDisabled: boolean;
+  isPreviousDisabled: boolean;
 }
 
-const UserResults = ({ userCount, users }: Props) => (
-  <ResultsLayout title={`${formatNumberWithCommas(userCount)} user${userCount !== 1 ? 's' : ''}`}>
+const UserResults = ({
+  userCount,
+  users,
+  onNextClick,
+  onPreviousClick,
+  isNextDisabled,
+  isPreviousDisabled,
+}: Props) => (
+  <ResultsLayout
+    title={`${formatNumberWithCommas(userCount)} user${userCount !== 1 ? 's' : ''}`}
+    onNextClick={onNextClick}
+    onPreviousClick={onPreviousClick}
+    isNextDisabled={isNextDisabled}
+    isPreviousDisabled={isPreviousDisabled}
+  >
     {users.map((r, i) => (
       <Fragment key={r.id}>
         <User

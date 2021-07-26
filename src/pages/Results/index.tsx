@@ -62,6 +62,15 @@ const Results = () => {
             repositories={repositories}
             userCount={usersResult?.search.userCount}
             users={users}
+            // TODO: Implement pagination events
+            onRepositoryNextClick={() => {}}
+            onRepositoryPreviousClick={() => { }}
+            isRepositoryNextDisabled={!repositoriesResult.search.pageInfo.hasNextPage}
+            isRepositoryPreviousDisabled={!repositoriesResult.search.pageInfo.hasPreviousPage}
+            onUserNextClick={() => { }}
+            onUserPreviousClick={() => { }}
+            isUserNextDisabled={!usersResult.search.pageInfo.hasNextPage}
+            isUserPreviousDisabled={!usersResult.search.pageInfo.hasPreviousPage}
           />
         )}
       </Container>

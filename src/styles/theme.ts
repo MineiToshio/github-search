@@ -8,6 +8,7 @@ const theme = {
     text2: '#1C1C1C',
     text3: '#5C5C5C',
     text4: '#B0B7C3',
+    text5: '#FF1733',
     button: '#5C5C5C',
     shadow: '#C4CBD6',
     black: '#000000',
