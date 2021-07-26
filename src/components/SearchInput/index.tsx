@@ -31,9 +31,15 @@ const SearchInput = ({
     }
   }, []);
 
+  const onKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      onSearch();
+    }
+  };
+
   return (
     <Container size={size}>
-      <Input type="text" value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} ref={inputRef} />
+      <Input type="text" value={value} onChange={(e) => onChange(e.target.value)} onKeyUp={onKeyUp} placeholder={placeholder} ref={inputRef} />
       <Spacer direction="horizontal" size={10} />
       <Button onClick={onSearch}>
         <Icon src={search} alt="search" />
