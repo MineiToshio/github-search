@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Header,
@@ -6,6 +6,9 @@ import {
   UserPhoto,
   UserContainer,
   Icon,
+  Triangle,
+  Button,
+  Menu,
 } from './styles';
 import { Text, Spacer } from '../../core';
 import SearchInput from '../SearchInput';
@@ -35,7 +38,11 @@ const HeaderComponent = ({
   onSearch = () => { },
   onlyUserNav = false,
 }: Props) => {
-  const { currentUser } = useCurrentUser();
+  const { currentUser, logout } = useCurrentUser();
+  const [showMenu, setShowmenu] = useState(false);
+
+  const toggleMenu = () => setShowmenu(!showMenu);
+
   return (
     <Header onlyUserNav={onlyUserNav}>
       {!onlyUserNav && (
@@ -46,13 +53,21 @@ const HeaderComponent = ({
           <SearchInput value={searchValue} onChange={onSearchValueChange} onSearch={onSearch} placeholder="Search" />
         </>
       )}
-      <UserContainer>
+      <UserContainer onClick={toggleMenu}>
         <UserPhoto src={currentUser?.photo} alt={currentUser?.name} />
         <Spacer direction="horizontal" size={10} />
         <Text fontFamily="user" color="text2" fontSize="lg" lineHeight="19px">{currentUser?.name}</Text>
         <Spacer direction="horizontal" size={10} />
         <Icon src={chevronDown} alt="down" />
       </UserContainer>
+      {showMenu && (
+        <Menu>
+          <Triangle />
+          <Button onClick={logout}>
+            <Text color="text5" fontSize="lg" lineHeight="21px">Logout</Text>
+          </Button>
+        </Menu>
+      )}
     </Header>
   );
 };

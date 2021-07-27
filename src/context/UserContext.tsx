@@ -17,6 +17,7 @@ type ContextProps = {
   currentUser: User;
   status: CONTEXT_STATUS;
   login: (accessToken: string) => void;
+  logout: () => void;
 };
 
 type ProviderProps = {
@@ -27,12 +28,19 @@ export const UserContext = React.createContext<ContextProps>({
   currentUser: null,
   status: CONTEXT_STATUS.INITIALIZING,
   login: () => { },
+  logout: () => { },
 });
 
 const UserContextProvider = ({ children }: ProviderProps) => {
   const [currentUser, setCurrentUser] = useState<User>(null);
   const [status, setStatus] = useState(CONTEXT_STATUS.INITIALIZING);
-  const [getUser, { data: user, loading: isFetchingUser }] = useLazyQuery<UserData>(GET_USER);
+  const [
+    getUser,
+    {
+      data: user,
+      loading: isFetchingUser,
+      client,
+    }] = useLazyQuery<UserData>(GET_USER);
 
   useEffect(() => {
     if (status === CONTEXT_STATUS.FETCHING && !isFetchingUser) {
@@ -60,6 +68,12 @@ const UserContextProvider = ({ children }: ProviderProps) => {
     getUser();
   };
 
+  const logout = () => {
+    localStorage.removeItem(constants.localStorageKeys.accessToken);
+    setCurrentUser(null);
+    client?.clearStore();
+  };
+
   useEffect(() => {
     if (user) {
       const { viewer: { name, avatarUrl } } = user;
@@ -73,7 +87,13 @@ const UserContextProvider = ({ children }: ProviderProps) => {
   }, [user]);
 
   return (
-    <UserContext.Provider value={{ currentUser, login, status }}>
+    <UserContext.Provider value={{
+      currentUser,
+      login,
+      status,
+      logout,
+    }}
+    >
       {children}
     </UserContext.Provider>
   );
