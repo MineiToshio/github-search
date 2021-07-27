@@ -28,7 +28,7 @@ const Login = () => {
     if (status === CONTEXT_STATUS.FINISHED) {
       setIsLoading(false);
     }
-  }, []);
+  }, [status]);
 
   const onSuccess = async (res: GithubResponse) => {
     setIsLoading(true);
