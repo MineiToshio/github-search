@@ -21,6 +21,7 @@ npm run dev
 ## 🔥 Testing
 
 You can run the test with the following command:
+
 ```sh
 npm t
 ```
